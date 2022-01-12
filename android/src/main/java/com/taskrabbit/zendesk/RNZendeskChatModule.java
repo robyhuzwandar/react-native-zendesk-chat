@@ -13,7 +13,12 @@ import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableType;
 import com.facebook.react.bridge.WritableNativeMap;
+import com.zendesk.service.ErrorResponse;
+import com.zendesk.service.ZendeskCallback;
 
+import java.util.ArrayList;
+
+import zendesk.answerbot.AnswerBot;
 import zendesk.chat.Account;
 import zendesk.chat.AccountStatus;
 import zendesk.chat.Chat;
@@ -23,17 +28,14 @@ import zendesk.chat.ChatSessionStatus;
 import zendesk.chat.ChatState;
 import zendesk.chat.ObservationScope;
 import zendesk.chat.Observer;
-import zendesk.chat.ProfileProvider;
 import zendesk.chat.PreChatFormFieldStatus;
+import zendesk.chat.ProfileProvider;
 import zendesk.chat.PushNotificationsProvider;
 import zendesk.chat.VisitorInfo;
+import zendesk.core.Zendesk;
 import zendesk.messaging.MessagingActivity;
 import zendesk.messaging.MessagingConfiguration;
-import com.zendesk.service.ErrorResponse;
-import com.zendesk.service.ZendeskCallback;
-
-import java.lang.String;
-import java.util.ArrayList;
+import zendesk.support.Guide;
 
 public class RNZendeskChatModule extends ReactContextBaseJavaModule {
     private static final String TAG = "[RNZendeskChatModule]";
@@ -303,6 +305,11 @@ public class RNZendeskChatModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void initAnswerBot(){
+        AnswerBot.INSTANCE.init(Zendesk.INSTANCE, Guide.INSTANCE);
+    }
+
+    @ReactMethod
     public void startChat(ReadableMap options) {
         if (Chat.INSTANCE.providers() == null) {
             Log.e(TAG,
@@ -332,8 +339,10 @@ public class RNZendeskChatModule extends ReactContextBaseJavaModule {
 
         loadTags(options);
 
+
         MessagingConfiguration.Builder messagingBuilder = loadBotSettings(
-                getReadableMap(options, "messagingOptions", "startChat"), MessagingActivity.builder());
+                getReadableMap(options, "messagingOptions", "startChat"),
+                MessagingActivity.builder().withEngines());
 
         if (needsToSetVisitorInfoAfterChatStart) {
             setupChatStartObserverToSetVisitorInfo();

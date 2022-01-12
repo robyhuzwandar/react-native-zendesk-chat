@@ -39,4 +39,6 @@ dependencies {
 
   api group: 'com.zendesk', name: 'chat', version: safeExtGet('zendeskChatVersion', '3.1.0')
   api group: 'com.zendesk', name: 'messaging', version: safeExtGet('zendeskMessagingVersion', '5.1.0')
+  api group: 'com.zendesk', name: 'answerbot', version: '3.0.5'
+  api group: 'com.zendesk', name: 'support', version: '5.0.6'
 }
