@@ -102,6 +102,10 @@ declare module "react-native-zendesk-chat" {
 		 * Check if there are available agents
 		 */
 		areAgentsOnline: () => Promise<Boolean>;
+		/**
+		 * initial answer bot
+		 */
+		initAnswerBot: () => void;
 	}
 
 	const RNZendeskChatModule: RNZendeskChatModuleImpl;
