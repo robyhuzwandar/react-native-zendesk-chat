@@ -37,6 +37,8 @@ import zendesk.messaging.MessagingActivity;
 import zendesk.messaging.MessagingConfiguration;
 import zendesk.support.Guide;
 
+import zendesk.messaging.android.DefaultMessagingFactory;
+
 public class RNZendeskChatModule extends ReactContextBaseJavaModule {
     private static final String TAG = "[RNZendeskChatModule]";
 
@@ -45,9 +47,22 @@ public class RNZendeskChatModule extends ReactContextBaseJavaModule {
     private ReadableMap pendingVisitorInfo = null;
     private ObservationScope observationScope = null;
 
+
+    @ReactMethod
+    public void initChannel(String channelId){
+        zendesk.android.Zendesk.initialize(
+                mReactContext,
+                channelId,
+                zendesk->  Log.i("IntegrationApplication", "Initialization successful"),
+                error->Log.e("IntegrationApplication", "Messaging failed to initialize", error),
+                new DefaultMessagingFactory());
+    }
+
     // private class Converters {
     public static ArrayList<String> getArrayListOfStrings(ReadableMap options, String key, String functionHint) {
         ArrayList<String> result = new ArrayList();
+
+
 
         if (!options.hasKey(key)) {
             return result;

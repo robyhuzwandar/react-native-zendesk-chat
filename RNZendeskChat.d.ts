@@ -106,6 +106,10 @@ declare module "react-native-zendesk-chat" {
 		 * initial answer bot
 		 */
 		initAnswerBot: () => void;
+		/**
+		 * initial channel
+		 */
+		initChannel: (channelId: string) => void;
 	}
 
 	const RNZendeskChatModule: RNZendeskChatModuleImpl;
